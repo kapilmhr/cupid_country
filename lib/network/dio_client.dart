@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'paths.dart';
+import '../core/keys.dart';
 
 class DioClient {
   DioClient._();
@@ -14,8 +13,12 @@ class DioClient {
 
   final Dio _dio = Dio(
     BaseOptions(
-        baseUrl: Paths.baseUrl,
-
+        baseUrl: Keys.baseUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': Keys.apiKey,
+          'User-Agent': Keys.userAgent
+        },
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
         responseType: ResponseType.json),
@@ -36,10 +39,9 @@ class DioClient {
         onReceiveProgress: onReceiveProgress,
       );
       if (response.statusCode == 200) {
-        debugPrint(response.data.toString());
         return response.data;
       }
-      throw 'something went wrong';
+      throw 'Something went wrong';
     } catch (e) {
       rethrow;
     }
