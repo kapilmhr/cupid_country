@@ -19,7 +19,9 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildCountryDropdown(context),
+            const SizedBox(height: 20),
             _buildStateDropdown(context),
+            const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () => _handleSubmitButton(context),
                 child: const Text('Submit'))
@@ -35,11 +37,10 @@ class HomeScreen extends StatelessWidget {
       switch (state) {
         case GetCountryInitialState():
           return const SizedBox(child: CircularProgressIndicator());
-
         case GetCountryLoadingState():
           return const SizedBox(child: CircularProgressIndicator());
         case GetCountryLoadedState():
-          return DropdownButton<Country>(
+          return DropdownButtonFormField<Country>(
             items: state.countries.map((Country value) {
               return DropdownMenuItem<Country>(
                 value: value,
@@ -48,6 +49,9 @@ class HomeScreen extends StatelessWidget {
             }).toList(),
             value: state.selectedCountry,
             isExpanded: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
             hint: const Text('Select Country'),
             onChanged: (value) {
               context
@@ -71,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) {
       switch (state) {
         case GetCountryStatesLoadedState():
-          return DropdownButton<CountryState>(
+          return DropdownButtonFormField<CountryState>(
             items: state.countryStates.map((CountryState value) {
               return DropdownMenuItem<CountryState>(
                 value: value,
@@ -80,6 +84,9 @@ class HomeScreen extends StatelessWidget {
             }).toList(),
             value: state.selectedCountryState,
             isExpanded: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
             hint: const Text('Select State'),
             onChanged: (value) {
               context.read<GetStatesBloc>().add(UpdateSelectedCState(value));
@@ -97,7 +104,8 @@ class HomeScreen extends StatelessWidget {
 
   void _handleSubmitButton(BuildContext context) {
     final countryState = context.read<GetStatesBloc>().state;
-    if (countryState is GetCountryStatesLoadedState) {
+    if (countryState is GetCountryStatesLoadedState &&
+        countryState.selectedCountryState != null) {
       Map<String, dynamic> args = {
         Constants.country: countryState.selectedCountry,
         Constants.state: countryState.selectedCountryState,
