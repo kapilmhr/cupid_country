@@ -2,11 +2,12 @@ import 'package:cupid_country/core/app_theme.dart';
 import 'package:cupid_country/routes/app_routes.dart';
 import 'package:cupid_country/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/constants.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
