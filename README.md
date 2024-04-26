@@ -18,7 +18,7 @@ It has implemented two state management:
 
 ## Snapshot
 
-![Screenshot](https://github.com/kapilmhr/cupid_country/raw/riverpod/snap/snapshot.png)
+<img src="https://github.com/kapilmhr/cupid_country/raw/riverpod/snap/snapshot.png" width="200"/>
 
 
 ## Environment Setup
